@@ -1,0 +1,2 @@
+import './setconfigurations'
+import './myPlugin'

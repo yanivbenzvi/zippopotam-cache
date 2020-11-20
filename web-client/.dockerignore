@@ -1,4 +1,13 @@
-node_modules
-npm-debug.log
-*Dockerfile*
-*docker-compose*
+node_modules/
+.git/
+.github/
+.vscode/
+coverage/
+
+.dockerignore
+Dockerfile
+
+.gitignore
+.env
+.eslintrc
+.editorconfig
