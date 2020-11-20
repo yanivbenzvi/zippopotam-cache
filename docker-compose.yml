@@ -1,0 +1,60 @@
+version: "3.7"
+
+services:
+  mysql-db:
+    image: mysql/mysql-server:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: dbuser
+      MYSQL_PASSWORD: dbuserpwd
+      MYSQL_DATABASE: zip_code_db
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - zip-code-network
+
+#  web-backend:
+#    build:
+#      context: ./server
+#      dockerfile: Dockerfile
+#    depends_on:
+#      - mysql-db
+#    ports:
+#      - "5000:5000"
+#    expose:
+#      - "5000"
+#    volumes:
+#      - ./server:/opt/app:delegated
+#      - ./server/package.json:/opt/package.json
+#      - ./server/package-lock.json:/opt/package-lock.json
+#      - notused:/opt/app/node_modules
+#    networks:
+#      - zip-code-network
+
+  web-client:
+    build:
+      context: ./web-client
+      dockerfile: Dockerfile
+    ports:
+      - "7070:3000"
+    expose:
+      - "3000"
+    volumes:
+      - ./web-client:/opt/app:delegated
+      - ./web-client/package.json:/opt/package.json
+      - ./web-client/package-lock.json:/opt/package-lock.json
+      - notused:/opt/app/node_modules
+    networks:
+      - zip-code-network
+
+volumes:
+  db_data:
+  notused:
+
+networks:
+  zip-code-network:
+    driver: bridge
