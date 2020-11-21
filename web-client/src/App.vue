@@ -3,6 +3,7 @@
     <v-app-bar app
                color="primary"
                dark>
+      <v-app-bar-nav-icon><v-icon>home</v-icon></v-app-bar-nav-icon>
       <div class="d-flex align-center">
         Zip Location
       </div>
