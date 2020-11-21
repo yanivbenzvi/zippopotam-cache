@@ -17,23 +17,20 @@ services:
     networks:
       - zip-code-network
 
-#  web-backend:
-#    build:
-#      context: ./server
-#      dockerfile: Dockerfile
-#    depends_on:
-#      - mysql-db
-#    ports:
-#      - "5000:5000"
-#    expose:
-#      - "5000"
-#    volumes:
-#      - ./server:/opt/app:delegated
-#      - ./server/package.json:/opt/package.json
-#      - ./server/package-lock.json:/opt/package-lock.json
-#      - notused:/opt/app/node_modules
-#    networks:
-#      - zip-code-network
+  web-backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    depends_on:
+      - mysql-db
+    ports:
+      - "5000:5000"
+    volumes:
+        - "./server:/app"
+    expose:
+      - "5000"
+    networks:
+      - zip-code-network
 
   web-client:
     build:
@@ -42,18 +39,16 @@ services:
     ports:
       - "7070:3000"
     expose:
-      - "3000"
+      - "7070"
     volumes:
-      - ./web-client:/opt/app:delegated
-      - ./web-client/package.json:/opt/package.json
-      - ./web-client/package-lock.json:/opt/package-lock.json
-      - notused:/opt/app/node_modules
+        - "./web-client:/app"
     networks:
       - zip-code-network
+    logging:
+        driver: none
 
 volumes:
   db_data:
-  notused:
 
 networks:
   zip-code-network:

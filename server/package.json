@@ -1,0 +1,47 @@
+{
+    "name": "server",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "engines": {
+        "node": ">=11"
+    },
+    "scripts": {
+        "dev": "cross-env NODE_ENV=development nodemon index.js -L --exec babel-node index.js",
+        "migration": "./node_modules/.bin/sequelize db:migrate",
+        "seed": "./node_modules/.bin/sequelize db:migrate:undo:all",
+        "migration:undo": "./node_modules/.bin/sequelize db:migrate:undo",
+        "start": "nodemon -exec index.js",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "docs": "cross-env apidoc -e -i index.js -o docs"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "axios": "^0.19.0",
+        "cors": "^2.8.4",
+        "dotenv-safe": "^6.0.0",
+        "express": "^4.16.3",
+        "express-validation": "^3.0.6",
+        "mysql2": "^1.6.1",
+        "sequelize": "^4.38.0",
+        "sequelize-cli": "^4.0.0"
+    },
+    "devDependencies": {
+        "cross-env": "^7.0.2",
+        "nodemon": "^1.18.3",
+        "@babel/cli": "^7.11.6",
+        "@babel/core": "^7.11.6",
+        "@babel/node": "^7.10.5",
+        "@babel/plugin-proposal-class-properties": "^7.5.5",
+        "@babel/plugin-transform-runtime": "^7.12.1",
+        "@babel/preset-env": "^7.11.5",
+        "@babel/register": "^7.5.5",
+        "@types/chai": "^4.2.13",
+        "@types/mocha": "^8.0.3",
+        "apidoc": "^0.17.5",
+        "sinon": "^7.5.0",
+        "sinon-chai": "^3.0.0",
+        "supertest": "^4.0.2"
+    }
+}

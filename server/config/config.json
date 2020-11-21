@@ -1,0 +1,9 @@
+{
+  "development": {
+    "username": "dbuser",
+    "password": "dbuserpwd",
+    "database": "zip_code_db",
+    "host": "mysql-db",
+    "dialect": "mysql"
+  }
+}
