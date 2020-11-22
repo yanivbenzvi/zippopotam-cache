@@ -11,8 +11,10 @@
 
           <v-select v-model="chosenCountry"
                     :items="countryList"
+                    item-value="sName"
+                    item-text="fName"
                     menu-props="auto"
-                    label="Select"
+                    label="Country name"
                     hide-details
                     prepend-icon="mdi-map"></v-select>
 
@@ -27,12 +29,15 @@
       <v-divider></v-divider>
 
       <v-card-actions>
+        <v-btn @click.stop="clear" color="error">clear result</v-btn>
 
         <v-spacer></v-spacer>
+
         <v-btn @click.stop="send" color="info">send</v-btn>
 
       </v-card-actions>
     </v-card>
+
     <div v-if="locationAroundZipCode && locationAroundZipCode.length > 0" idth="400" class="mx-auto mt-5">
       <app-location-box :location-data="locationAroundZipCode"></app-location-box>
     </div>
@@ -50,7 +55,7 @@ export default {
     return {
       chosenCountry:         null,
       zipCode:               null,
-      countryList:           null,
+      countryList:           [],
       locationAroundZipCode: null,
       menuItems:             [
         {title: 'Home Page', icon: 'home', to: 'dashboard'},
@@ -63,72 +68,57 @@ export default {
   },
 
   methods: {
-    send() {
-      console.log('send data')
-      // this.$dialogs.push({dialogComponent: 'app-error-warning', errorMessage: 'nana'})
+    async send() {
+      await this.getLocationAroundZipCode()
+      if (this.locationAroundZipCode?.length === 0) {
+        this.$dialogs.push({
+          dialogComponent: 'app-error-warning',
+          errorMessage:    `Zipcode is not valid or not exist.`,
+        })
+      }
     },
 
-    getAllCountryList() {
-      //TODO: http request for the country list
-      this.countryList = ['israel', 'USA']
+    async getAllCountryList() {
+      try {
+        const response   = await this.$http.get('http://localhost:5000/v1/country')
+        this.countryList = response.data.countries
+      } catch (error) {
+        console.error(error)
+        this.$dialogs.push({
+          dialogComponent: 'app-error-warning',
+          errorMessage:    `cannot get country list: ${error.toString()}`,
+        })
+      }
     },
 
-    getLocationAroundZipCode() {
-      //TODO: http request with zip code in the body parameters, request should retrieve location in zip code.
-      this.locationAroundZipCode = [
-        {
-          'place name':         'Boqueron',
-          'longitude':          '-67.1873',
-          'state':              'Puerto Rico',
-          'state abbreviation': '72',
-          'latitude':           '17.9985',
-        },
-        {
-          'place name':         'Boqueron',
-          'longitude':          '-67.1873',
-          'state':              'Puerto Rico',
-          'state abbreviation': '72',
-          'latitude':           '17.9985',
-        },
-        {
-          'place name':         'Boqueron',
-          'longitude':          '-67.1873',
-          'state':              'Puerto Rico',
-          'state abbreviation': '72',
-          'latitude':           '17.9985',
-        },
-        {
-          'place name':         'Boqueron',
-          'longitude':          '-67.1873',
-          'state':              'Puerto Rico',
-          'state abbreviation': '72',
-          'latitude':           '17.9985',
-        },
-        {
-          'place name':         'Boqueron',
-          'longitude':          '-67.1873',
-          'state':              'Puerto Rico',
-          'state abbreviation': '72',
-          'latitude':           '17.9985',
-        },
-        {
-          'place name':         'Boqueron',
-          'longitude':          '-67.1873',
-          'state':              'Puerto Rico',
-          'state abbreviation': '72',
-          'latitude':           '17.9985',
-        },
-      ]
+    async getLocationAroundZipCode() {
+      try {
+        const response             = await this.$http.get(`http://localhost:5000/v1/places`, {
+          params: {
+            countryName: this.chosenCountry,
+            zipcode:     this.zipCode,
+          },
+        })
+        this.locationAroundZipCode = response.data.places
+      } catch (error) {
+        let errorMessage = error.toString()
+
+        if (error.request.status === 400) {
+          errorMessage = 'Zipcode or Country Name are missing.'
+        }
+
+        this.$dialogs.push({
+          dialogComponent: 'app-error-warning',
+          errorMessage:    errorMessage,
+        })
+      }
     },
 
-
-  },
-
-  watch: {
-    zipCode(value) {
-      this.getLocationAroundZipCode()
-      console.log('chosenCountry value has been changed to :', value)
+    clear() {
+      this.zipCode               = ''
+      this.locationAroundZipCode = null
     },
+
   },
 }
 </script>
