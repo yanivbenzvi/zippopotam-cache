@@ -13,9 +13,7 @@ services:
     expose:
       - "3306"
     volumes:
-      - db_data:/var/lib/mysql
-    networks:
-      - zip-code-network
+      - db_data:/var/lib/mysq
 
   web-backend:
     build:
@@ -29,8 +27,6 @@ services:
         - "./server:/app"
     expose:
       - "5000"
-    networks:
-      - zip-code-network
 
   web-client:
     build:
@@ -42,14 +38,7 @@ services:
       - "7070"
     volumes:
         - "./web-client:/app"
-    networks:
-      - zip-code-network
     logging:
         driver: none
-
 volumes:
   db_data:
-
-networks:
-  zip-code-network:
-    driver: bridge
