@@ -1,30 +1,46 @@
-# Docker MySQL Node Sequelize Vue task project
+<h1 align="center">zippopotam cache</h1>
 
-1. Starts a MySQL server container based on the [official image](https://hub.docker.com/_/mysql/),
-2. Starts a [Node.js 12](https://hub.docker.com/_/node/) app that waits for the database to become responsive, and run all migrations and seeds if necessary,
-3. Starts a React app (also based on [Node.js 12](https://hub.docker.com/_/node/)).
+This project contain a web app for searching places around zip code using Zippoptam API.
+Every request is cache the result from zippopotam API.
 
-You only need to have [Docker](https://www.docker.com/) installed in your computer, nothing else.
-The docker-compose.yml file creates a bind mount directory that allows you to test anything live, just change the code for the server or client and it will immediately become available.
+### 🏠 [Zippopotam Homepage](http://www.zippopotam.us/)
 
-The data for the MySQL will persist between launches.
+Project contain 3 server:
+- Backend  - RESTful API (at port 5000)
+- Frontend - Reactive UI using VueJS (at port 7070)
+- Database - MySQL
 
-To bring the project up first [install Docker](https://www.docker.com/), then run:
+Project using the following technology:
+- VueJS
+- ExpressJS
+- Sequelize ORM for MySQL
 
+## requirements
+- [Docker](https://www.docker.com/get-started)
+
+## Testing
+In order to run project server-side testing change directory to server path and run the following command:
+
+Unit Test:
+```sh
+npm run test:unit
 ```
+
+## Docs
+In order to view project server-side API docs run:
+```sh
+npm run docs
+```
+
+## Usage
+In order to run project use the following command in the root diractory of this repo:
+```sh
 docker-compose up
 ```
 
-The docker-compose.yml file routes port 80 on your host to the React app running on 3000 on the Docker environment, so once the system is up just go to http://localhost.
+## Author
 
-To bring it down:
+👤 **Yaniv Ben Zvi**
 
-```
-docker-compose down
-```
+* Github: [@yanivbenzvi](https://github.com/yanivbenzvi)
 
-If you change your Dockerfile and must rebuild the Node.js or React images, run:
-
-```
-docker-compose up --build
-```
