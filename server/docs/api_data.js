@@ -1,0 +1,31 @@
+define({ "api": [
+  {
+    "type": "get",
+    "url": "v1/country",
+    "title": "List country",
+    "description": "<p>Get a list of country</p>",
+    "version": "1.0.0",
+    "name": "ListCountry",
+    "group": "Country",
+    "permission": [
+      {
+        "name": "public"
+      }
+    ],
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Object[]",
+            "optional": false,
+            "field": "Country",
+            "description": "<p>List of countries.</p>"
+          }
+        ]
+      }
+    },
+    "filename": "src/router/v1/country.route.js",
+    "groupTitle": "Country"
+  }
+] });

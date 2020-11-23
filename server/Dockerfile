@@ -8,7 +8,7 @@ ENV NODE_ENV $NODE_ENV
 RUN mkdir /app
 WORKDIR /app
 #ADD package.json package-lock.json .env /app/
-COPY ["package.json", "package-lock.json", ".env", ".babelrc", "/app/"]
+COPY ["package.json", "package-lock.json", ".env", ".babelrc", ".sequelizerc", "/app/"]
 RUN npm i
 ADD . /app
 

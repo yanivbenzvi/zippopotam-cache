@@ -7,8 +7,7 @@
               max-width="350px"
               min-height="150px"
               class="mx-2 my-2 text-center pa-4">
-        place name: {{ location['place name'] }}<br/>
-        state: {{ location['state'] }}<br/>
+        place name: {{ location['placeName'] }}<br/>
         longitude: {{ location['longitude'] }}<br/>
         latitude: {{ location['latitude'] }}<br/>
       </v-card>
