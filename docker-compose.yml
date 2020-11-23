@@ -21,10 +21,13 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - mysql-db
+    environment:
+      - NODE_ENV=development
     ports:
       - "5000:5000"
     volumes:
         - "./server:/app"
+        - "/app/node_modules"
     expose:
       - "5000"
 
